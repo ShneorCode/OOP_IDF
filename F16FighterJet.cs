@@ -15,37 +15,31 @@ public class F16FighterJet : AttackUnit
         BombTypes = new List<string> { "0.5", "1" };
         EffectiveAgainst = new List<string> { "house" };
 
-        EffectivenessPerLocation = new Dictionary<string, int>
-        {
-            { "House", 100 },
-            { "At Home", 90 },
-            { "buildings", 80 },
-            { "In Car", 0 },
-            { "open area", 0 }
-        };
+        
     }
 
 
     public override void Attack(Terrorist target)
     {
-        if (string.IsNullOrEmpty(target.Location))
+
+
+        if (target.Status == "Dead")
         {
-            Console.WriteLine($"Cannot attack {target.Name} because their location is unknown.");
+            Console.WriteLine($"Target {target.Name} is already dead. No action taken.");
             return;
         }
 
-        int effectiveness = GetEffectiveness(target.Location);
-
-        if (effectiveness <= 0)
+        if (!CanAttack(target.Location))
         {
             Console.WriteLine($"{Name} is not effective against targets at {target.Location}.");
             return;
         }
 
+
         if (AmmoCapacity <= 0)
         {
-            Console.WriteLine($"{Name} has no ammo left!");
-            return;
+        Console.WriteLine($"{Name} has no ammo left!");
+        return;
         }
 
         UseAmmo();

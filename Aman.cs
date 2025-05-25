@@ -36,7 +36,7 @@ public class Aman
         }
 
         string mostReportedName = null;
-        int maxCount = -1;
+        int maxCount = 0;
 
         foreach (var pair in counts)
         {
@@ -47,6 +47,9 @@ public class Aman
             }
         }
 
+        if (maxCount == 0)
+            return null;
+
         foreach (var terrorist in terrorists)
         {
             if (terrorist.Name == mostReportedName)
@@ -56,19 +59,22 @@ public class Aman
         return null;
     }
 
-    public IntelReport GetLatestReportForTerrorist(string name)
-    {
-        IntelReport latest = null;
 
+
+    public IntelReport GetLatestReportForTerrorist(string terroristName)
+    {
+        IntelReport latestReport = null;
         foreach (var report in Reports)
         {
-            if (report.TerroristName == name)
+            if (report.TerroristName == terroristName)
             {
-                if (latest == null || report.Timestamp > latest.Timestamp)
-                    latest = report;
+                if (latestReport == null || report.Timestamp > latestReport.Timestamp)
+                {
+                    latestReport = report;
+                }
             }
         }
-
-        return latest;
+        return latestReport;
     }
+
 }

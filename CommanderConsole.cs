@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class CommanderConsole
 {
@@ -9,7 +8,6 @@ public class CommanderConsole
     private List<Terrorist> terrorists;
     private string officerName;
     private List<StrikeLogEntry> strikeLog = new List<StrikeLogEntry>();
-
 
     public CommanderConsole(IDF idf, Aman aman, List<Terrorist> terrorists, string officerName)
     {
@@ -58,32 +56,29 @@ public class CommanderConsole
             return;
         }
 
-        IntelReport report = aman.GetLatestReportForTerrorist(name);
-        if (report == null)
+        IntelReport latestReport = aman.GetLatestReportForTerrorist(name);
+
+        if (latestReport == null)
         {
             Console.WriteLine("No available intel on this terrorist.");
             return;
         }
 
+        string location = latestReport.LastKnownLocation;
+
         AttackUnit selectedUnit = null;
         int highestEffectiveness = -1;
-        string location = report.LastKnownLocation; 
+
+        selectedUnit = null;
 
         foreach (var unit in idf.AttackUnits)
         {
-            if (unit.AmmoCapacity > 0)
+            if (unit.AmmoCapacity > 0 && unit.EffectiveAgainst.Contains(location))
             {
-                int effectiveness = unit.GetEffectiveness(location);
-
-                if (effectiveness > highestEffectiveness)
-                {
-                    highestEffectiveness = effectiveness;
                 selectedUnit = unit;
-                }
+                break;  
             }
         }
-
-
 
 
         if (selectedUnit == null)
@@ -99,7 +94,7 @@ public class CommanderConsole
             Time = DateTime.Now,
             TargetName = target.Name,
             UnitName = selectedUnit.Name,
-            Location = report.LastKnownLocation
+            Location = latestReport.LastKnownLocation
         });
 
         Console.WriteLine("\n--- Strike Executed ---");
@@ -107,11 +102,9 @@ public class CommanderConsole
         Console.WriteLine($"Target: {target.Name}");
         Console.WriteLine($"Unit: {selectedUnit.Name}");
         Console.WriteLine($"Officer: {officerName}");
-        Console.WriteLine($"Location: {report.LastKnownLocation}");
+        Console.WriteLine($"Location: {latestReport.LastKnownLocation}");
         Console.WriteLine($"Remaining Ammo: {selectedUnit.AmmoCapacity}");
     }
-
-
 
     private void ShowStrikeLog()
     {
@@ -153,11 +146,9 @@ public class CommanderConsole
     private void ShowAvailableUnits()
     {
         Console.WriteLine("\n--- Available Attack Units ---");
-
         foreach (var unit in idf.AttackUnits)
         {
             Console.WriteLine($"{unit.Name} | Ammo: {unit.AmmoCapacity} | Effective Against: {string.Join(", ", unit.EffectiveAgainst)}");
-
         }
     }
 

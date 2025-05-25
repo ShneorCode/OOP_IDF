@@ -3,22 +3,16 @@
     public string Name;  
     public int AmmoCapacity; 
     public int FuelLevel;
-    public List<string> EffectiveAgainst = new List<string>(); 
+    public List<string> EffectiveAgainst = new List<string>();
 
 
-    public Dictionary<string, int> EffectivenessPerLocation = new Dictionary<string, int>();
 
-    public bool CanAttack(string targetType)
+
+    public bool CanAttack(string location)
     {
-        foreach (string type in EffectiveAgainst)
-        {
-            if (type == targetType)
-            {
-                return true;
-            }
-        }
-        return false;
+        return EffectiveAgainst.Contains(location);
     }
+
 
 
     public void UseAmmo()
@@ -35,12 +29,5 @@
 
     public abstract void Attack(Terrorist target);
 
-    public int GetEffectiveness(string location)
-    {
-        if (EffectivenessPerLocation.TryGetValue(location, out int effectiveness))
-        {
-            return effectiveness;
-        }
-        return 0;
-    }
+
 }

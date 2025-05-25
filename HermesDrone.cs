@@ -18,9 +18,18 @@ public class HermesDrone : AttackUnit
 
     public override void Attack(Terrorist target)
     {
-        if (!CanAttack(target.Location) && !CanAttack("car"))
+
+
+        if (target.Status == "Dead")
         {
-            Console.WriteLine($"{Name} is not effective in this location.");
+            Console.WriteLine($"Target {target.Name} is already dead. No action taken.");
+            return;
+        }
+
+
+        if (!CanAttack(target.Location))
+        {
+            Console.WriteLine($"{Name} is not effective against targets at {target.Location}.");
             return;
         }
 

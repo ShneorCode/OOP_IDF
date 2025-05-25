@@ -5,8 +5,7 @@ class Program
 {
     static void Main(string[] args)
     {
-
-        Console.WriteLine("IDF Operation – First Strike");
+        Console.WriteLine("Welcome to IDF Operation – First Strike");
         Console.WriteLine($"Startup Time: {DateTime.Now:dd/MM/yyyy HH:mm:ss}");
 
         // Initialize
@@ -14,10 +13,11 @@ class Program
 
         List<Terrorist> terrorists = initializer.CreateRandomTerrorists(5);
         IDF idf = initializer.InitializeIDF();
-        List<IntelReport> reports = initializer.CreateRandomIntelReports(terrorists);
 
         Aman aman = new Aman();
-        aman.Reports = reports;
+        aman.GenerateRandomReports(terrorists);
+
+        List<IntelReport> reports = aman.Reports;
 
         // Commander name
         Console.Write("Enter Officer Name: ");
@@ -26,5 +26,8 @@ class Program
         // Start console
         CommanderConsole console = new CommanderConsole(idf, aman, terrorists, officerName);
         console.ShowMenuLoop();
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }
