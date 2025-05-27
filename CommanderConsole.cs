@@ -88,7 +88,7 @@ public class CommanderConsole
             Console.WriteLine("No available unit with effectiveness in this location.");
             return;
         }
-
+        target.Location = latestReport.LastKnownLocation;
         selectedUnit.Attack(target);
 
         strikeLog.Add(new StrikeLogEntry
@@ -166,6 +166,7 @@ public class CommanderConsole
             Console.WriteLine($"Name: {t.Name}, Rank: {t.Rank}, Threat Score: {score}");
             Console.WriteLine($"Weapons: {string.Join(", ", t.Weapons)}");
             Console.WriteLine($"Last Known Location: {(latest != null ? latest.LastKnownLocation : "Unknown")}");
+            Console.WriteLine($"Status: {t.Status}");
             Console.WriteLine("---");
         }
     }
