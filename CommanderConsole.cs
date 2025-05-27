@@ -58,6 +58,8 @@ public class CommanderConsole
 
         IntelReport latestReport = aman.GetLatestReportForTerrorist(name);
 
+
+
         if (latestReport == null)
         {
             Console.WriteLine("No available intel on this terrorist.");

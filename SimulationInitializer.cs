@@ -9,7 +9,7 @@ public class SimulationInitializer
     {
         List<Terrorist> terrorists = new List<Terrorist>();
         string[] possibleWeapons = { "Knife", "Pistol", "M16", "AK47" };
-        string[] names = { "Mohammed", "Ahmed", "Mustafa", "Omar", "Hassan" }; // 5 names
+        string[] names = { "Mohammed", "Ahmed", "Mustafa", "Omar", "Hassan" }; 
 
         for (int i = 0; i < count; i++)
         {
